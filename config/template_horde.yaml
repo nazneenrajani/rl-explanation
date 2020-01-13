@@ -1,0 +1,103 @@
+config_for: horde
+
+# Environment settings
+env_name: 'MiniGrid-Empty-5x5-v0'
+env_wrappers: ['FullyObsWrapper', 'ImageChannelSwapWrapper', 'TimeLimit'] # The first wrapper wraps around the env first
+env_wrapper_args: [[], [], []]
+n_envs: 1
+reseed: True
+reseed_strategy: same # within an env
+seed_strategy: same # across the vector of envs
+env_seeds: [1]
+
+# Randomization
+seed: 1
+
+# Discounting
+gamma: 0.95
+pred_gammas: [0.5]
+
+# Exploration with epsilon greedy
+eps_start: 1.0
+eps_end: 0.1
+eps_decay: 20000
+
+# Boltzmann matching policy
+temp_start: 1.0
+temp_end: 0.1
+temp_decay: 20000
+
+# Model
+model: Horde
+dist_model: AttentionPolicyDistillation
+policy: EpsilonGreedyPolicy
+
+# Optimizer
+optimizer: RMSprop
+dist_optimizer: RMSprop
+
+# Target network settings
+target_update: 4000 # steps
+q_target: standard
+
+# Number of episodes
+num_steps: 20000000
+
+# Evaluation settings
+eval_freq: 1000 # steps
+eval_eps: 3 # number of evaluation episodes
+eval_policy: main
+eval_dir: /export/share/karan-goel/rlexp/
+
+n_attention_heads: 1
+
+# Checkpoint settings
+checkpoint_freq: 10000 # steps
+store_experience: True
+
+# Replay buffer settings
+replay_buffer_size: 20000
+replay_buffer_alpha: 0.
+replay_buffer_beta_start: 0.5
+replay_buffer_beta_end: 1.
+replay_buffer_beta_decay: 20000000
+
+
+# Optimization settings
+bootstrap: 50000
+update_freq: 1 # steps
+batch_size: 256
+dist_batch_size: 1024
+lr: 0.0003
+dist_lr: 0.001
+dist_steps: 1
+
+# Deep network settings
+conv_layers: [[8, 2, 1], [8, 2, 1]]
+batch_norm: False
+detach_aux_demons: False
+two_streams: False
+
+# Attention mechanism settings
+detach_attn_context: True
+distill_from_target_net: True
+k_dim: 8
+attn_mechanism: global_regression
+attn_softmax: False
+affine_vals: False
+fit_residuals: False
+standardize: False
+
+# Loss
+regression_loss_fn: l2
+regularization: l1
+regularization_coef: 0.1
+
+# Predicates to use
+predicates: []
+predicate_args: []
+
+# Weights and Biases configuration settings
+wandb_org: salesforce
+wandb_project: rlexp-horde-v1
+wandb_tags: v1

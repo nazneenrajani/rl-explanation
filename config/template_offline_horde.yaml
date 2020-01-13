@@ -1,0 +1,104 @@
+config_for: offline_horde
+
+phase_1_checkpoint: 200000
+phase_1_run_id: 947hufsn
+
+# Environment settings
+env_name: 'MiniGrid-KeyCorridorS3R2-v0'
+env_wrappers: ['FullyObsWrapper', 'ImageChannelSwapWrapper', 'MiniGridRewardWrapper', 'MiniGridTimeLimitWrapper']
+env_wrapper_args: [[], [], [], [1000]]
+n_envs: 4
+reseed: True
+reseed_strategy: same # within an env
+seed_strategy: same # across the vector of envs
+env_seeds: [1]
+
+# Randomization
+seed: 1
+
+# Discounting
+gamma: 0.99
+pred_gammas: [0., 0.5, 0.75, 0.875, 0.9375, 0.96875, 0.984375, 0.9921875, 0.9990234375]
+
+# Exploration with epsilon greedy
+eps_start: 1.0
+eps_end: 0.1
+eps_decay: 2000000
+
+# Boltzmann matching policy
+temp_start: 1.0
+temp_end: 0.1
+temp_decay: 20000
+
+# Model
+model: Horde
+dist_model: AttentionPolicyDistillation
+policy: EpsilonGreedyPolicy
+
+# Optimizer
+optimizer: RMSprop
+dist_optimizer: RMSprop
+
+# Target network settings
+target_update: 10112
+q_target: double
+
+# Number of episodes
+num_steps: 2000
+
+# Evaluation settings
+eval_freq: 1000 # steps
+eval_eps: 3 # number of evaluation episodes
+eval_policy: main
+eval_dir: /export/share/karan-goel/rlexp/
+
+n_attention_heads: 1
+
+# Checkpoint settings
+checkpoint_freq: 200000 # steps
+store_experience: True
+
+# Replay buffer settings
+replay_buffer_size: 1000000
+replay_buffer_alpha: 0.
+replay_buffer_beta_start: 0.5
+replay_buffer_beta_end: 1.
+replay_buffer_beta_decay: 20000000
+
+# Optimization settings
+update_freq: 1 # steps
+batch_size: 256
+dist_batch_size: 64
+lr: 0.001
+dist_lr: 0.001
+dist_steps: 1
+
+# Deep network settings
+conv_layers: [[8, 2, 1], [8, 2, 1]]
+batch_norm: False
+detach_aux_demons: True
+two_streams: False
+
+# Attention mechanism settings
+detach_attn_context: True
+distill_from_target_net: True
+k_dim: 8
+attn_mechanism: lin_state_action_concat
+attn_softmax: False
+affine_vals: False
+fit_residuals: True
+standardize: False
+
+# Loss
+regression_loss_fn: l2
+regularization: l1
+regularization_coef: 0.1
+
+# Predicates to use
+predicates: []
+predicate_args: []
+
+# Weights and Biases configuration settings
+wandb_org: salesforce
+wandb_project: rlexp-minigrid-keycorridor-s3r2-horde-v3
+wandb_tags: v3

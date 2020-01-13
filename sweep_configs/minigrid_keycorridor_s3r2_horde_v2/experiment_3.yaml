@@ -1,0 +1,108 @@
+# 100 steps may be too short for random walk to reach the goal
+
+config_for: horde
+
+# Environment settings
+env_name: 'MiniGrid-KeyCorridorS3R2-v0'
+env_wrappers: ['FullyObsWrapper', 'ImageChannelSwapWrapper', 'MiniGridRewardWrapper', 'MiniGridTimeLimitWrapper']
+env_wrapper_args: [[], [], [], [1000]]
+n_envs: 128
+reseed: True
+reseed_strategy: same # within an env
+seed_strategy: same # across the vector of envs
+
+# Randomization
+seed:
+  values: [1]
+
+# Discounting
+gamma:
+  values: [0.99]
+
+# Exploration with epsilon greedy
+eps_start: 1.0
+eps_end: 0.1
+eps_decay:
+  values: [1000000, 2000000]
+
+# Boltzmann matching policy
+temp_start: 1.0
+temp_end: 0.1
+temp_decay: 20000
+
+# Model
+model: Horde
+dist_model: AttentionPolicyDistillation
+policy: EpsilonGreedyPolicy
+
+# Optimizer
+optimizer: RMSprop
+dist_optimizer: RMSprop
+
+# Target network settings
+target_update:
+  values: [10112, 50560] # steps (must be divided by n_envs)
+
+# Number of episodes
+num_steps: 20000000
+
+# Evaluation settings
+eval_freq: 1000 # steps
+eval_eps: 3 # number of evaluation episodes
+eval_policy: main
+eval_dir: /export/share/karan-goel/rlexp/
+
+n_attention_heads: 1
+
+# Checkpoint settings
+checkpoint_freq: 200000 # steps
+
+# Replay buffer settings
+replay_buffer_size:
+  values: [500000, 1000000]
+replay_buffer_alpha:
+  values: [0.]
+replay_buffer_beta_start: 0.5
+replay_buffer_beta_end: 1.
+replay_buffer_beta_decay: 20000000
+
+# Optimization settings
+update_freq: 1 # steps
+batch_size: 256
+dist_batch_size: 64
+lr:
+  values: [0.001, 0.0003]
+dist_lr: 0.001
+dist_steps: 1
+
+# Deep network settings
+conv_layers: [[8, 2, 1], [8, 2, 1]]
+batch_norm: False
+detach_aux_demons: True
+
+# Attention mechanism settings
+detach_attn_context: True
+distill_from_target_net: True
+k_dim: 8
+attn_mechanism:
+  values: [lin_state_action_concat]
+attn_softmax: False
+affine_vals: False
+fit_residuals: True
+
+# Loss
+regression_loss_fn: l2
+regularization: l1
+regularization_coef:
+  values: [0.1]
+
+# Predicates to use
+predicates: [Constant, FullyObservableMiniGridPickUp, FullyObservableMiniGridPickUp,
+             FullyObservableMiniGridAttemptOpenDoor, FullyObservableMiniGridNear, FullyObservableMiniGridNear,
+             FullyObservableMiniGridNear]
+predicate_args: [[], ['key'], ['ball'], [],
+                 ['key', 1], ['door', 1], ['ball', 1]]
+# Weights and Biases configuration settings
+wandb_org: salesforce
+wandb_project: rlexp-minigrid-keycorridor-s3r2-horde-v2
+wandb_tags: v2

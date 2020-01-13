@@ -1,0 +1,92 @@
+affine_vals: false
+attn_mechanism: lin_state_action_concat
+attn_softmax: false
+batch_norm: false
+batch_size: 256
+checkpoint_freq: 5000
+config_for: horde
+conv_layers:
+- - 8
+  - 2
+  - 1
+- - 8
+  - 2
+  - 1
+detach_attn_context: true
+detach_aux_demons: true
+dist_batch_size: 32
+dist_lr: 0.001
+dist_model: AttentionPolicyDistillation
+dist_optimizer: RMSprop
+dist_steps: 1
+distill_from_target_net: true
+env_name: MiniGrid-Empty-5x5-v0
+env_wrappers:
+- FullyObsWrapper
+- ImageChannelSwapWrapper
+eps_decay: 20000
+eps_end: 0.1
+eps_start: 1.0
+eval_dir: /export/share/karan-goel/rlexp/
+eval_eps: 3
+eval_freq: 1000
+fit_residuals: true
+gamma: 0.95
+k_dim: 8
+lr: 0.0003
+model: Horde
+n_attention_heads: 1
+num_episodes: 10000
+optimizer: RMSprop
+policy: EpsilonGreedyPolicy
+predicate_args:
+- []
+- []
+- []
+- - 1
+  - 1
+- - 1
+  - 2
+- - 1
+  - 3
+- - 1
+  - 4
+- - 2
+  - 1
+- - 2
+  - 2
+- - 2
+  - 3
+- - 3
+  - 1
+- - 3
+  - 2
+- - 3
+  - 3
+predicates:
+- Constant
+- FullyObservableMiniGridNextToWall
+- FullyObservableMiniGridAwayFromWall
+- FullyObservableMiniGrid5x5v0AtSquare
+- FullyObservableMiniGrid5x5v0AtSquare
+- FullyObservableMiniGrid5x5v0AtSquare
+- FullyObservableMiniGrid5x5v0AtSquare
+- FullyObservableMiniGrid5x5v0AtSquare
+- FullyObservableMiniGrid5x5v0AtSquare
+- FullyObservableMiniGrid5x5v0AtSquare
+- FullyObservableMiniGrid5x5v0AtSquare
+- FullyObservableMiniGrid5x5v0AtSquare
+- FullyObservableMiniGrid5x5v0AtSquare
+regression_loss_fn: l2
+regularization: l1
+regularization_coef: 0.2
+replay_buffer_size: 20000
+seed: 2
+target_update: 2000
+temp_decay: 20000
+temp_end: 0.1
+temp_start: 1.0
+update_freq: 1
+wandb_org: salesforce
+wandb_project: rlexp-horde-v2
+wandb_tags: v2/yvwvbtkp/23

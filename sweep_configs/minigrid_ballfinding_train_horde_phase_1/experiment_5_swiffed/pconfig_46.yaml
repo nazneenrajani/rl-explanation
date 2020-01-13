@@ -1,0 +1,83 @@
+affine_vals: false
+attn_mechanism: lin_state_action_concat
+attn_softmax: false
+batch_norm: false
+batch_size: 128
+bootstrap: 50000
+checkpoint_freq: 200000
+config_for: horde
+conv_layers:
+- - 8
+  - 2
+  - 1
+- - 8
+  - 2
+  - 1
+detach_attn_context: true
+detach_aux_demons: true
+dist_batch_size: 64
+dist_lr: 0.001
+dist_model: AttentionPolicyDistillation
+dist_optimizer: RMSprop
+dist_steps: 1
+distill_from_target_net: true
+env_name: MiniGrid-BallFindingTrain-v0
+env_seeds:
+- 1
+- 2
+- 3
+- 4
+- 5
+- 6
+- 7
+- 8
+env_wrapper_args:
+- []
+- []
+- - 5000
+- []
+env_wrappers:
+- FullyObsWrapper
+- ImageChannelSwapWrapper
+- MiniGridTimeLimitWrapper
+- MiniGridRescaleObservationWrapper
+eps_decay: 1000000
+eps_end: 0.1
+eps_start: 1.0
+eval_dir: /export/share/karan-goel/rlexp/
+eval_eps: 3
+eval_freq: 1000
+eval_policy: main
+fit_residuals: true
+gamma: 0.99
+k_dim: 8
+lr: 0.0003
+model: Horde
+n_attention_heads: 1
+n_envs: 64
+num_steps: 50000000
+optimizer: RMSprop
+policy: EpsilonGreedyPolicy
+predicate_args: []
+predicates: []
+q_target: double
+regression_loss_fn: l2
+regularization: l1
+regularization_coef: 0.1
+replay_buffer_alpha: 0.0
+replay_buffer_beta_decay: 10000000
+replay_buffer_beta_end: 1.0
+replay_buffer_beta_start: 0.5
+replay_buffer_size: 1000000
+reseed: true
+reseed_strategy: same
+seed: 2
+seed_strategy: specific
+target_update: 81920
+temp_decay: 20000
+temp_end: 0.1
+temp_start: 1.0
+update_freq: 4
+wandb_org: salesforce
+wandb_project: rlexp-minigrid-ballfinding-train-horde-phase-1
+wandb_tags: v1/1q39z2j5/46

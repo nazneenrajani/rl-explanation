@@ -1,0 +1,1 @@
+git add main.py; git commit -m $1; git push;

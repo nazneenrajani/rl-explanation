@@ -1,0 +1,70 @@
+# Environment settings
+env_name: 'MiniGrid-Empty-5x5-v0'
+env_wrappers: ['FullyObsWrapper', 'ImageChannelSwapWrapper'] # The first wrapper wraps around the env first
+
+# Discounting
+gamma: 0.95
+
+seed:
+  values: [1, 2, 3]
+
+# Exploration with epsilon greedy
+eps_start: 1.0
+eps_end: 0.1
+eps_decay: 20000
+
+# Boltzmann matching policy
+temp_start: 1.0
+temp_end: 0.1
+temp_decay: 20000
+
+# Model
+model: MultiHeadDQN
+
+# Target network settings
+target_update: 2000 # steps
+
+# Number of episodes
+num_episodes: 5000
+
+# Evaluation settings
+eval_freq: 1000 # steps
+eval_eps: 1 # number of evaluation episodes
+
+# Checkpoint settings
+checkpoint_freq: 5000 # steps
+
+# Replay buffer settings
+replay_buffer_size: 20000
+
+# Optimization settings
+update_freq: 1 # steps
+batch_size: 256
+lr:
+  values: [0.001, 0.0003, 0.0001]
+
+# Policy matching loss
+matching_loss: bce
+matching_loss_coef: 1.0
+q_matching: False
+q_matching_loss_coef: 1.0
+
+
+# Deep network settings
+conv_layers: [[8, 2, 1], [8, 2, 1]]
+output_wts: False
+detach_attn_context: False
+
+# Predicates to use
+predicates: [FullyObservableMiniGridNextToWall, FullyObservableMiniGridAwayFromWall, FullyObservableMiniGrid5x5v0AtSquare,
+            FullyObservableMiniGrid5x5v0AtSquare, FullyObservableMiniGrid5x5v0AtSquare, FullyObservableMiniGrid5x5v0AtSquare,
+            FullyObservableMiniGrid5x5v0AtSquare, FullyObservableMiniGrid5x5v0AtSquare, FullyObservableMiniGrid5x5v0AtSquare,
+            FullyObservableMiniGrid5x5v0AtSquare, FullyObservableMiniGrid5x5v0AtSquare, FullyObservableMiniGrid5x5v0AtSquare]
+predicate_args: [[], [], [1, 1],
+                 [1, 2], [1, 3], [1, 4],
+                 [2, 1], [2, 2], [2, 3],
+                 [3, 1], [3, 2], [3, 3]]
+
+# Weights and Biases configuration settings
+wandb_project: rlexp
+wandb_tags: v1

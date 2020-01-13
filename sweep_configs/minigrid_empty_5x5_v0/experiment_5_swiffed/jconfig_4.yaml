@@ -1,0 +1,48 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: sfr-job-karan-goel-rlexp-v317spk5-3
+  namespace: sfr-ns-karan-goel
+spec:
+  template:
+    spec:
+      containers:
+      - args:
+        - cd /export/home/rl-explanation/ && pip install gym-minigrid && pip install
+          seaborn && pip install natsort && pip install tqdm && bash /export/home/.wandb/auth
+          && apt-get -y update && apt-get -y install libxext6 libx11-6 libxrender1
+          libxtst6 libxi6 libxml2 libglib2.0-0 && eval `ssh-agent -s` && ssh-add /export/home/.ssh/id_rsa
+          && git remote set-url origin git@github.com:MetaMind/rl-explanation.git
+          && git pull && python dqn.py -c sweep_configs/minigrid_empty_5x5_v0/experiment_5_swiffed/pconfig_4.yaml
+        command:
+        - /bin/sh
+        - -c
+        image: gcr.io/salesforce-research-internal/karan-goel-image-rlexp
+        name: sfr-job-karan-goel-rlexp-v317spk5-3
+        resources:
+          limits:
+            cpu: 7
+            memory: 45G
+            nvidia.com/gpu: 1
+          requests:
+            cpu: 7
+            memory: 45G
+            nvidia.com/gpu: 1
+        volumeMounts:
+        - mountPath: /export/home
+          name: sfr-home-pv-karan-goel
+        - mountPath: /export/share
+          name: sfr-share-pv-karan-goel
+      restartPolicy: Never
+      tolerations:
+      - effect: NoSchedule
+        key: gpu_num
+        operator: Equal
+        value: '2'
+      volumes:
+      - name: sfr-home-pv-karan-goel
+        persistentVolumeClaim:
+          claimName: sfr-home-pvc-karan-goel
+      - name: sfr-share-pv-karan-goel
+        persistentVolumeClaim:
+          claimName: sfr-share-pvc-karan-goel

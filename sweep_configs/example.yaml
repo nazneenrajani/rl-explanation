@@ -1,0 +1,41 @@
+# Environment settings
+env_name: 'MiniGrid-Empty-5x5-v0'
+env_wrappers: ['FullyObsWrapper', 'ImageChannelSwapWrapper'] # The first wrapper wraps around the env first
+
+# Discounting
+gamma: 0.95
+
+# Exploration with epsilon greedy
+eps_start: 1.0
+eps_end: 0.1
+eps_decay: 20000
+
+# Target network settings
+# ------------------------ Example of a sweep: we specify values of the target_update to try -----------------------
+target_update:
+  values: [2000, 4000] # steps
+
+# Number of episodes
+num_episodes: 2000
+
+# Evaluation settings
+eval_freq: 1000 # steps
+eval_eps: 10 # number of evaluation episodes
+
+# Checkpoint settings
+checkpoint_freq: 10000 # steps
+
+# Replay buffer settings
+replay_buffer_size: 20000
+
+# Optimization settings
+update_freq: 1 # steps
+batch_size: 256
+lr: 0.0003
+
+# Deep network settings
+conv_layers: [[8, 2, 1], [8, 2, 1]]
+
+# Weights and Biases configuration settings
+wandb_project: rlexp
+wandb_tags: v1

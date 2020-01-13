@@ -1,0 +1,27 @@
+batch_size: 256
+checkpoint_freq: 10000
+conv_layers:
+- - 8
+  - 2
+  - 1
+- - 8
+  - 2
+  - 1
+env_name: MiniGrid-Empty-8x8-v0
+env_wrappers:
+- FullyObsWrapper
+- ImageChannelSwapWrapper
+eps_decay: 20000
+eps_end: 0.1
+eps_start: 1.0
+eval_eps: 10
+eval_freq: 1000
+gamma: 0.99
+lr: 0.0003
+num_episodes: 2000
+replay_buffer_size: 20000
+seed: 1
+target_update: 4000
+update_freq: 1
+wandb_project: rlexp
+wandb_tags: v1/6vo7ykmp

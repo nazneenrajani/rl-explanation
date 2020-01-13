@@ -1,0 +1,132 @@
+config_for: distill_horde
+
+# Weights and Biases configuration settings
+wandb_org: salesforce
+wandb_project: rlexp-minigrid-keycorridor-s3r2-horde-phase-3
+wandb_tags: v1
+
+# Phase 1 information
+phase_1_checkpoint: 5000000
+phase_1_run_id: u5b3mhfc
+
+phase_2_checkpoint: -1
+phase_2_run_id: mx3s8eku
+
+# Environment settings
+env_name: 'MiniGrid-KeyCorridorS3R2-v0'
+env_wrappers: ['FullyObsWrapper', 'ImageChannelSwapWrapper', 'MiniGridRewardWrapper', 'MiniGridTimeLimitWrapper']
+env_wrapper_args: [[], [], [], [1000]]
+n_envs: 8
+reseed: True
+reseed_strategy: same # within an env
+seed_strategy: same # across the vector of envs
+
+# Randomization
+seed:
+  values: [1, 2]
+
+# Discounting
+gamma:
+  values: [0.99]
+pred_gammas: [0., 0.5, 0.75, 0.875, 0.9375, 0.96875]
+pred_gammas_basis_prediction_demon:
+  values: [[0, 1, 2], [0, 1, 2, 3, 4, 5]]
+pred_gammas_basis_control_demon: []
+
+# Exploration with epsilon greedy
+eps_start: 1.0
+eps_end: 0.1
+eps_decay:
+  values: [2000000]
+
+# Boltzmann matching policy
+temp_start: 1.0
+temp_end: 0.01
+temp_decay: 500000
+
+# Model
+model: Horde
+dist_model: AttentionPolicyDistillation
+policy: EpsilonGreedyPolicy
+
+# Optimizer
+optimizer: RMSprop
+dist_optimizer: RMSprop
+
+# Target network settings
+target_update:
+  values: [5000] # steps (must be divided by n_envs)
+q_target:
+  values: [standard]
+
+# Number of episodes
+num_steps: 500000
+
+# Evaluation settings
+eval_freq: 1000 # steps
+eval_eps: 2 # number of evaluation episodes
+eval_policy: main
+eval_dir: /export/share/karan-goel/rlexp/
+
+n_attention_heads: 1
+
+# Checkpoint settings
+checkpoint_freq: 10000 # steps
+
+# Replay buffer settings
+replay_buffer_size:
+  values: [3000000]
+replay_buffer_alpha:
+  values: [0.]
+replay_buffer_beta_start: 0.5
+replay_buffer_beta_end: 1.
+replay_buffer_beta_decay: 20000000
+
+# Optimization settings
+update_freq: 1 # steps
+batch_size: 256
+dist_batch_size: 64
+lr:
+  values: [0.001]
+dist_lr:
+  values: [0.001, 0.0003]
+dist_steps: 1
+
+# Deep network settings
+conv_layers: [[8, 2, 1], [8, 2, 1]]
+batch_norm: False
+detach_aux_demons: False
+two_streams: True
+
+# Attention mechanism settings
+detach_attn_context: True
+distill_from_target_net: True
+k_dim: 16
+attn_mechanism:
+  values: [2layer_state_action_concat_no_q]
+attn_softmax:
+  values: [False]
+affine_vals:
+  values: [True, False]
+fit_residuals: True
+standardize: True
+
+# Loss
+regression_loss_fn: l2
+softmax_loss_fn: kl
+softmax_loss_coef: 0.1
+regularization: l1
+regularization_coef:
+  values: [0.1, 0.01]
+
+# Predicates to use
+predicates: [Constant, FullyObservableMiniGridPickUp, FullyObservableMiniGridPickUp,
+             FullyObservableMiniGridAttemptOpenDoor, FullyObservableMiniGridNear, FullyObservableMiniGridNear,
+             FullyObservableMiniGridNear]
+predicate_args: [[], ['key'], ['ball'], [],
+                 ['key', 1], ['door', 1], ['ball', 1]]
+
+predicate_basis_prediction_demons:
+  values: [[0, 1, 2, 3, 4, 5, 6], [1, 2, 4, 6]]
+predicate_basis_control_demons: []
+

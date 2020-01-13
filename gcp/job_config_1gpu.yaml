@@ -1,0 +1,46 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: sfr-job-karan-goel-rlexp
+  namespace: sfr-ns-karan-goel
+spec:
+  template:
+    spec:
+      containers:
+      - command:
+        - sleep
+        - infinity
+        image: gcr.io/salesforce-research-internal/karan-goel-image-rlexp
+        name: sfr-job-karan-goel-rlexp
+        resources:
+          limits:
+            cpu: 7
+            memory: 45G
+            nvidia.com/gpu: 1
+          requests:
+            cpu: 7
+            memory: 45G
+            nvidia.com/gpu: 1
+        volumeMounts:
+            - name: sfr-home-pv-karan-goel
+              mountPath: "/export/home"
+            - name: sfr-share-pv-karan-goel
+              mountPath: "/export/share"
+            - name: dshm
+              mountPath: /dev/shm
+      volumes:
+        - name: sfr-home-pv-karan-goel
+          persistentVolumeClaim:
+            claimName: sfr-home-pvc-karan-goel
+        - name: sfr-share-pv-karan-goel
+          persistentVolumeClaim:
+            claimName: sfr-share-pvc-karan-goel
+        - name: dshm
+          emptyDir:
+            medium: Memory
+      restartPolicy: Never
+      tolerations:
+        - key: "gpu_num"
+          operator: "Equal"
+          value: "2"
+          effect: "NoSchedule"

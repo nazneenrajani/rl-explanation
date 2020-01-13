@@ -1,0 +1,39 @@
+batch_size: 256
+checkpoint_freq: 5000
+conv_layers:
+- - 8
+  - 2
+  - 1
+- - 8
+  - 2
+  - 1
+detach_attn_context: false
+env_name: MiniGrid-Empty-5x5-v0
+env_wrappers:
+- FullyObsWrapper
+- ImageChannelSwapWrapper
+eps_decay: 20000
+eps_end: 0.1
+eps_start: 1.0
+eval_eps: 1
+eval_freq: 1000
+gamma: 0.95
+lr: 0.0001
+matching_loss: bce
+matching_loss_coef: 1.0
+model: MultiHeadDQN
+num_episodes: 5000
+output_wts: false
+predicate_args: []
+predicates: []
+q_matching: false
+q_matching_loss_coef: 1.0
+replay_buffer_size: 20000
+seed: 3
+target_update: 2000
+temp_decay: 20000
+temp_end: 0.1
+temp_start: 1.0
+update_freq: 1
+wandb_project: rlexp_g5gqkssl
+wandb_tags: v1/g5gqkssl/9

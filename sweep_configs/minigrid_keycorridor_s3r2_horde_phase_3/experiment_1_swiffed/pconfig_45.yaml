@@ -1,0 +1,124 @@
+affine_vals: false
+attn_mechanism: 2layer_state_action_concat_no_q
+attn_softmax: false
+batch_norm: false
+batch_size: 256
+checkpoint_freq: 10000
+config_for: distill_horde
+conv_layers:
+- - 8
+  - 2
+  - 1
+- - 8
+  - 2
+  - 1
+detach_attn_context: true
+detach_aux_demons: true
+dist_batch_size: 64
+dist_lr: 0.001
+dist_model: AttentionPolicyDistillation
+dist_optimizer: RMSprop
+dist_steps: 1
+distill_from_target_net: true
+env_name: MiniGrid-KeyCorridorS3R2-v0
+env_wrapper_args:
+- []
+- []
+- []
+- - 1000
+env_wrappers:
+- FullyObsWrapper
+- ImageChannelSwapWrapper
+- MiniGridRewardWrapper
+- MiniGridTimeLimitWrapper
+eps_decay: 2000000
+eps_end: 0.1
+eps_start: 1.0
+eval_dir: /export/share/karan-goel/rlexp/
+eval_eps: 3
+eval_freq: 1000
+eval_policy: main
+fit_residuals: true
+gamma: 0.99
+k_dim: 8
+lr: 0.001
+model: Horde
+n_attention_heads: 1
+n_envs: 8
+num_steps: 200000
+optimizer: RMSprop
+phase_1_checkpoint: 5000000
+phase_1_run_id: rstxoi5b
+phase_2_checkpoint: -1
+phase_2_run_id: t12xvmqc
+policy: EpsilonGreedyPolicy
+pred_gammas:
+- 0.0
+- 0.5
+- 0.75
+- 0.875
+- 0.9375
+- 0.96875
+- 0.984375
+- 0.9921875
+- 0.9990234375
+pred_gammas_basis_control_demon: []
+pred_gammas_basis_prediction_demon:
+- 0
+- 1
+- 2
+- 3
+- 4
+- 5
+- 6
+- 7
+- 8
+predicate_args:
+- []
+- - key
+- - ball
+- []
+- - key
+  - 1
+- - door
+  - 1
+- - ball
+  - 1
+predicate_basis_control_demons: []
+predicate_basis_prediction_demons:
+- 0
+- 1
+- 2
+- 3
+- 4
+- 5
+- 6
+predicates:
+- Constant
+- FullyObservableMiniGridPickUp
+- FullyObservableMiniGridPickUp
+- FullyObservableMiniGridAttemptOpenDoor
+- FullyObservableMiniGridNear
+- FullyObservableMiniGridNear
+- FullyObservableMiniGridNear
+q_target: standard
+regression_loss_fn: l2
+regularization: l1
+regularization_coef: 0.1
+replay_buffer_alpha: 0.0
+replay_buffer_beta_decay: 20000000
+replay_buffer_beta_end: 1.0
+replay_buffer_beta_start: 0.5
+replay_buffer_size: 10000000
+reseed: true
+reseed_strategy: same
+seed: 2
+seed_strategy: same
+target_update: 5000
+temp_decay: 20000
+temp_end: 0.1
+temp_start: 1.0
+update_freq: 1
+wandb_org: salesforce
+wandb_project: rlexp-minigrid-keycorridor-s3r2-horde-phase-3
+wandb_tags: v1/2i2szxto/45

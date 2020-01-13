@@ -1,0 +1,1 @@
+MINIGRID_ACTIONS = ['Left', 'Right', 'Forward', 'Pick', 'Drop', 'Toggle', 'Done']
